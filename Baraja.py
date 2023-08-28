@@ -33,7 +33,9 @@ class Baraja_de_naipes():
 
         print("Creada baraja de ", len(self.mazo), " naipes")
 
+    # este es el que más problemas me ha dado, representar la lista de objetos "Naipe"
     def muestraBaraja_de_naipes(self):
+        # lista auxiliar donde meter los identificadores de los naipes para poder imprimirlos.
         display_baraja = []
         # imprime en filas de 10
         for i in range(0, (len(self.mazo)//10)):
@@ -48,7 +50,7 @@ class Baraja_de_naipes():
             print(display_baraja)
             display_baraja = []
 
-    def cortar(self):  # coge la mitad inferior del mazo y la pone arriba
+    def cortar(self):  # coge la mitad inferior del mazo de naipes y la pone arriba
         mazo_aux = []
         for i in range(0, int(len(self.mazo)/2)):
             mazo_aux.append(self.mazo.pop(0))
@@ -57,16 +59,14 @@ class Baraja_de_naipes():
 
     def mezclar(self):
         mazo_barajado = []
-        vueltas = int(input("¿Cuántas veces quieres barajar?:"))
+        # barajo intercambiado cartas cada 3 posiciones, lo corta y lo vuelve a itercambiar. 3 veces
         contador = 1
-        # barajo intercambiado cartas cada 3 posiciones, 3 veces
-        while contador <= vueltas:
+        while contador <= 3:
             for n in range(0, 3):
                 for i in range(n, len(self.mazo), 3):
                     naipe = self.mazo[i]
                     mazo_barajado.append(naipe)
             self.mazo = mazo_barajado
-            # self.mazo.cortar() -- puede invocarse un método dentro de otro método?
 
             print("barajo mazo de ", len(self.mazo),
                   " cartas", contador, "veces, cogiendo de 3 en 3")
@@ -74,6 +74,7 @@ class Baraja_de_naipes():
             self.muestraBaraja_de_naipes()
             mazo_barajado = []
             contador = contador + 1
+        # cambia estado de la Baraja a "barajada"
         self.barajada = True
 
     def Reparte_cartas(self, num_jugadores, num_cartas):
@@ -87,16 +88,17 @@ class Baraja_de_naipes():
             print("Repartiendo ", num_cartas, "para",
                   len(manos_jugadores), "jugadores")
 
-            # reparte cartas por turno a cada jugador tantesel ultimo jugador tantas veces como num_cartas
+            # reparte cartas por turno a cada jugador tantas veces como num_cartas
             ronda = 1
             while ronda <= num_cartas:
                 for i in range(0, num_jugadores):
                     # extrae el primer elemento de la baraja
                     carta = self.mazo.pop(0)
-                    carta.repartido = True
+                    # cambai estado de esa carta a "repartida"
+                    carta.repartido = True  # de momento es un atributo que no uso para nada
                     manos_jugadores[i].append(carta)
                 ronda = ronda+1
-            # imprime las manos de los jugadores.esto sería un método del juego que use la baraja, en caso de haberlo.
+            # podría hacder una clase "Mano" de Naipes, de la que haríamos tantas instancias como num jugadores. con un método "muestra"
             display_mano = []
             for i in range(0, num_jugadores):
                 print("Mano jugador ", i+1, ":")
@@ -105,13 +107,3 @@ class Baraja_de_naipes():
                 print(display_mano)
                 display_mano = []
                 print("")
-
-
-"""""
-    def mezclar_repartiendo(self):
-        self.Reparte_cartas(2, 20)
-        for j in range(0, 20):
-            self.mazo.append(self.manos_jugadores[1][j])
-        for j in range(0, 20):
-            self.mazo.append(self.manos_jugadores[0][j])
-"""
