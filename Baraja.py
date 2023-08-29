@@ -1,43 +1,49 @@
 class Naipe():
-    def __init__(self):
-        self.numero = ""
-        self.palo = ""
-        self.id = ""
+    def __init__(self, num, palo):
+        self.numero = num
+        self.palo = palo
+        self.id = self.numero+self.palo
         self.repartido = False
         # self.en_juego
         # self.imagen...
 
-    def creaNaipe(self, num, palo):
-        self.numero = num
-        self.palo = palo
-        self.id = self.numero+self.palo
+    def __str__(self):
+        # return "{}".format(self.id)
+        return f"{self.id}"
 
-    def muestraNaipe(self):
-        print(self.id)
+    def __repr__(self):
+        return self.__str__()
 
 
-class Baraja_de_naipes():
+class Baraja():
     def __init__(self):
         self.mazo = []
         self.palos = ["o", "c", "e", "b"]
         self.numeros = ["A", "2", "3", "4", "5", "6", "7", "S", "C", "R"]
         self.barajada = False
 
-    def crearBaraja_de_naipes(self):
+    def crea_Baraja(self):
 
         for p in self.palos:
             for n in self.numeros:
-                mi_naipe = Naipe()
-                mi_naipe.creaNaipe(n, p)
+                mi_naipe = Naipe(n, p)
                 self.mazo.append(mi_naipe)
 
         print("Creada baraja de ", len(self.mazo), " naipes")
 
-    # este es el que más problemas me ha dado, representar la lista de objetos "Naipe"
-    def muestraBaraja_de_naipes(self):
+    def __str__(self):
+        if self.barajada == True:
+            return f"Soy una baraja de {len(self.mazo)} cartas ya barajada"
+        else:
+            return f"Soy una baraja de {len(self.mazo)} cartas sin barajar"
+
+    def __repr__(self):
+        return self.__str__()
+
+    def muestra_Baraja(self):
         # lista auxiliar donde meter los identificadores de los naipes para poder imprimirlos.
         display_baraja = []
-        # imprime en filas de 10
+        # imprime en filas de 10 los identificadores de cada carta
         for i in range(0, (len(self.mazo)//10)):
             for j in range(i*10, (i*10)+10):
                 display_baraja.append(self.mazo[j].id)
@@ -59,7 +65,7 @@ class Baraja_de_naipes():
 
     def mezclar(self):
         mazo_barajado = []
-        # barajo intercambiado cartas cada 3 posiciones, lo corta y lo vuelve a itercambiar. 3 veces
+        # barajo intercambiado cartas cada 3 posiciones, lo corta y lo vuelve a intercambiar. 3 veces
         contador = 1
         while contador <= 3:
             for n in range(0, 3):
@@ -71,7 +77,7 @@ class Baraja_de_naipes():
             print("barajo mazo de ", len(self.mazo),
                   " cartas", contador, "veces, cogiendo de 3 en 3")
 
-            self.muestraBaraja_de_naipes()
+            self.muestra_Baraja()
             mazo_barajado = []
             contador = contador + 1
         # cambia estado de la Baraja a "barajada"
@@ -98,7 +104,7 @@ class Baraja_de_naipes():
                     carta.repartido = True  # de momento es un atributo que no uso para nada
                     manos_jugadores[i].append(carta)
                 ronda = ronda+1
-            # podría hacder una clase "Mano" de Naipes, de la que haríamos tantas instancias como num jugadores. con un método "muestra"
+            # podría hacer una clase "Mano" de Naipes, de la que haríamos tantas instancias como num jugadores. con un método "muestra"
             display_mano = []
             for i in range(0, num_jugadores):
                 print("Mano jugador ", i+1, ":")
